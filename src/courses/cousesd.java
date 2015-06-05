@@ -16,7 +16,7 @@ public class cousesd extends javax.swing.JDialog {
 private Connection con;
     private int crs_id;
     
-    public cousesd(java.awt.Frame parent, boolean modal) {
+    public cousesd(java.awt.Frame parent, boolean modal, Connection con, int crs_id) {
         super(parent, modal);
         initComponents();
          this.setTitle("Course");
@@ -338,7 +338,7 @@ private Connection con;
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                cousesd dialog = new cousesd(new javax.swing.JFrame(), true);
+                cousesd dialog = new cousesd(new javax.swing.JFrame(), true, null, 0);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
