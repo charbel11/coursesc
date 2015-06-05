@@ -123,8 +123,18 @@ private Connection con;
         nbofcredits.setText("Number Of Credits:");
 
         nbofc.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "1", "2", "3" }));
+        nbofc.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                nbofcActionPerformed(evt);
+            }
+        });
 
         chlab.setText("Lab");
+        chlab.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                chlabActionPerformed(evt);
+            }
+        });
 
         save.setText("Save");
         save.addActionListener(new java.awt.event.ActionListener() {
@@ -289,6 +299,14 @@ private Connection con;
             evt.consume();
         }
     }//GEN-LAST:event_descripKeyTyped
+
+    private void nbofcActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nbofcActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_nbofcActionPerformed
+
+    private void chlabActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chlabActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_chlabActionPerformed
 
     /**
      * @param args the command line arguments

@@ -190,11 +190,17 @@
           </StringArray>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="nbofcActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JCheckBox" name="chlab">
       <Properties>
         <Property name="text" type="java.lang.String" value="Lab"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="chlabActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="save">
       <Properties>
