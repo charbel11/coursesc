@@ -6,18 +6,48 @@
 
 package courses;
 
-/**
- *
- * @author Charbel
- */
+import javax.swing.JOptionPane;
+import java.sql.*;
+import javax.swing.JFrame;
+
 public class cousesd extends javax.swing.JDialog {
 
-    /**
-     * Creates new form cousesd
-     */
+  
+private Connection con;
+    private int crs_id;
+    
     public cousesd(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+         this.setTitle("Course");
+        this.setLocationRelativeTo(this);
+        this.con = con;
+        this.crs_id = crs_id;
+        populate();
+    }
+    private void populate() {
+        try {
+            Statement stmt = con.createStatement();
+            ResultSet rs
+                    = stmt.executeQuery("Select * "
+                            + "From tbl_courses Where crs_id =" + crs_id);
+            if (rs.next()) {
+                code.setText(rs.getString("crs_code"));
+                name.setText(rs.getString("crs_name"));
+                descrip.setText(rs.getString("crs_description"));
+                major.setSelectedItem(rs.getString("crs_type"));
+                nbofc.setSelectedItem(rs.getString("crs_numberofcredit"));
+                if(rs.getString("crs_lab").equals("Yes")){
+                    chlab.setSelected(true);
+                }else{
+                    chlab.setSelected(false);
+                }
+                
+               
+            }
+        } catch (SQLException ex) {
+            System.err.println(ex.getMessage());
+        }
     }
 
     /**
@@ -32,56 +62,76 @@ public class cousesd extends javax.swing.JDialog {
         coursesPUEntityManager = java.beans.Beans.isDesignTime() ? null : javax.persistence.Persistence.createEntityManagerFactory("coursesPU").createEntityManager();
         tblCoursesQuery = java.beans.Beans.isDesignTime() ? null : coursesPUEntityManager.createQuery("SELECT t FROM TblCourses t");
         tblCoursesList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : tblCoursesQuery.getResultList();
-        jLabel1 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jLabel2 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
-        jLabel3 = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
-        jLabel4 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox();
-        jLabel5 = new javax.swing.JLabel();
-        jComboBox2 = new javax.swing.JComboBox();
-        jCheckBox1 = new javax.swing.JCheckBox();
-        jButton1 = new javax.swing.JButton();
+        coursecode = new javax.swing.JLabel();
+        code = new javax.swing.JTextField();
+        coursename = new javax.swing.JLabel();
+        name = new javax.swing.JTextField();
+        description = new javax.swing.JLabel();
+        descrip = new javax.swing.JTextField();
+        type = new javax.swing.JLabel();
+        major = new javax.swing.JComboBox();
+        nbofcredits = new javax.swing.JLabel();
+        nbofc = new javax.swing.JComboBox();
+        chlab = new javax.swing.JCheckBox();
+        save = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        jLabel1.setText("Course Code:");
+        coursecode.setText("Course Code:");
 
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+        code.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
+                codeActionPerformed(evt);
+            }
+        });
+        code.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                codeKeyTyped(evt);
             }
         });
 
-        jLabel2.setText("Course Name:");
+        coursename.setText("Course Name:");
 
-        jTextField2.addActionListener(new java.awt.event.ActionListener() {
+        name.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField2ActionPerformed(evt);
+                nameActionPerformed(evt);
+            }
+        });
+        name.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                nameKeyTyped(evt);
             }
         });
 
-        jLabel3.setText("Description:");
+        description.setText("Description:");
 
-        jTextField3.addActionListener(new java.awt.event.ActionListener() {
+        descrip.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField3ActionPerformed(evt);
+                descripActionPerformed(evt);
+            }
+        });
+        descrip.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                descripKeyTyped(evt);
             }
         });
 
-        jLabel4.setText("Type:");
+        type.setText("Type:");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Major", "Elective" }));
+        major.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Major", "Elective" }));
 
-        jLabel5.setText("Number Of Credits:");
+        nbofcredits.setText("Number Of Credits:");
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "1", "2", "3" }));
+        nbofc.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "1", "2", "3" }));
 
-        jCheckBox1.setText("Lab");
+        chlab.setText("Lab");
 
-        jButton1.setText("Save");
+        save.setText("Save");
+        save.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                saveActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -90,31 +140,31 @@ public class cousesd extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jCheckBox1)
+                    .addComponent(chlab)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel2))
+                            .addComponent(coursecode)
+                            .addComponent(coursename))
                         .addGap(29, 29, 29)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(name, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(code, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel4))
+                            .addComponent(description)
+                            .addComponent(type))
                         .addGap(40, 40, 40)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 252, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(major, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(descrip, javax.swing.GroupLayout.PREFERRED_SIZE, 252, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel5)
+                        .addComponent(nbofcredits)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(nbofc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(54, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton1)
+                .addComponent(save)
                 .addGap(20, 20, 20))
         );
         layout.setVerticalGroup(
@@ -122,45 +172,123 @@ public class cousesd extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(coursecode)
+                    .addComponent(code, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(coursename)
+                    .addComponent(name, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(31, 31, 31)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel3)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(description)
+                    .addComponent(descrip, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(24, 24, 24)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(type)
+                    .addComponent(major, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
-                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(nbofcredits)
+                    .addComponent(nbofc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(jCheckBox1)
+                .addComponent(chlab)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
-                .addComponent(jButton1)
+                .addComponent(save)
                 .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+    private void codeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_codeActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+             
+    }//GEN-LAST:event_codeActionPerformed
 
-    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField2ActionPerformed
+    private void nameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nameActionPerformed
+        // TODO add your handling code here:                
+    }//GEN-LAST:event_nameActionPerformed
 
-    private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
+    private void descripActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_descripActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField3ActionPerformed
+    }//GEN-LAST:event_descripActionPerformed
+
+    private void saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveActionPerformed
+        // TODO add your handling code here:
+        if (code.getText().equals("")) {
+            JOptionPane.showMessageDialog(this,
+                    "Enter A Course Code", "Warning",
+                    JOptionPane.WARNING_MESSAGE);
+        } else if (name.getText().equals("")) {
+            JOptionPane.showMessageDialog(this,
+                    "Enter A Course Name", "Warning",
+                    JOptionPane.WARNING_MESSAGE);
+        } else {
+            String Code = code.getText();
+            String Name = name.getText();
+            String description = descrip.getText();
+            String type= major.getSelectedItem().toString();
+            int numberOfCredit= Integer.parseInt(nbofc.getSelectedItem().toString());
+            String lab;
+            if (!chlab.isSelected()) {
+                lab = "No";
+            } else {
+                lab = "Yes";
+            }
+            
+            try {
+                PreparedStatement pstmt;
+                if(crs_id==0){
+                       pstmt = con.prepareStatement("Insert Into "
+                                + "tbl_courses (crs_code,"
+                                + "crs_name, crs_description, "
+                                + "crs_type, crs_numberofcredit, "
+                                + "crs_lab) "
+                                + "Values ( '" + Code + "', "
+                                + "'" + Name + "', '" + description+ "', '"
+                                + type + "', " + numberOfCredit + ", '"
+                                + lab + "')");
+                }else{
+                    pstmt = con.prepareStatement("Update tbl_courses "
+                            + "Set crs_code = '" + Code + "', "
+                            + "crs_name = '" + Name + "', "
+                            + "crs_description = '" + description + "', "
+                            + "crs_type = '" + type + "', "
+                            + "crs_numberofcredit= " + numberOfCredit + ", "
+                            + "crs_lab = '" + lab + "'" 
+                            + "Where crs_id = " + crs_id);
+                }
+                pstmt.execute();
+                this.dispose();
+            } catch (SQLException ex) {
+                System.err.println(ex.getMessage());
+            }
+        }
+    }//GEN-LAST:event_saveActionPerformed
+
+    private void codeKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_codeKeyTyped
+        // TODO add your handling code here:
+         if ((!Character.isDigit(evt.getKeyChar())|| code.getText().length() > 5)
+             &&(Character.isDigit(evt.getKeyChar())|| code.getText().length() > 5)) {
+            evt.consume();
+         }
+    }//GEN-LAST:event_codeKeyTyped
+
+    private void nameKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_nameKeyTyped
+        // TODO add your handling code here:
+        if ((!Character.isDigit(evt.getKeyChar())|| name.getText().length() > 39)
+            && (Character.isDigit(evt.getKeyChar())|| name.getText().length() > 39)  ) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_nameKeyTyped
+
+    private void descripKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_descripKeyTyped
+        // TODO add your handling code here:
+         if ((!Character.isDigit(evt.getKeyChar())|| descrip.getText().length() > 249)
+          &&(Character.isDigit(evt.getKeyChar())|| descrip.getText().length() > 249)   ) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_descripKeyTyped
 
     /**
      * @param args the command line arguments
@@ -205,20 +333,20 @@ public class cousesd extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JCheckBox chlab;
+    private javax.swing.JTextField code;
+    private javax.swing.JLabel coursecode;
+    private javax.swing.JLabel coursename;
     private javax.persistence.EntityManager coursesPUEntityManager;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JCheckBox jCheckBox1;
-    private javax.swing.JComboBox jComboBox1;
-    private javax.swing.JComboBox jComboBox2;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
+    private javax.swing.JTextField descrip;
+    private javax.swing.JLabel description;
+    private javax.swing.JComboBox major;
+    private javax.swing.JTextField name;
+    private javax.swing.JComboBox nbofc;
+    private javax.swing.JLabel nbofcredits;
+    private javax.swing.JButton save;
     private java.util.List<courses.TblCourses> tblCoursesList;
     private javax.persistence.Query tblCoursesQuery;
+    private javax.swing.JLabel type;
     // End of variables declaration//GEN-END:variables
 }
