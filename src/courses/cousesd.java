@@ -13,13 +13,13 @@ import javax.swing.JFrame;
 public class cousesd extends javax.swing.JDialog {
 
   
-private Connection con;
+    private Connection con;
     private int crs_id;
     
     public cousesd(java.awt.Frame parent, boolean modal, Connection con, int crs_id) {
         super(parent, modal);
         initComponents();
-         this.setTitle("Course");
+        this.setTitle("cousesd");
         this.setLocationRelativeTo(this);
         this.con = con;
         this.crs_id = crs_id;
@@ -236,8 +236,8 @@ private Connection con;
         } else {
             String Code = code.getText();
             String Name = name.getText();
-            String description = descrip.getText();
-            String type= major.getSelectedItem().toString();
+            String Description = descrip.getText();
+            String Type= major.getSelectedItem().toString();
             int numberOfCredit= Integer.parseInt(nbofc.getSelectedItem().toString());
             String lab;
             if (!chlab.isSelected()) {
