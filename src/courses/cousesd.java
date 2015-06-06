@@ -36,7 +36,7 @@ public class cousesd extends javax.swing.JDialog {
                 name.setText(rs.getString("crs_name"));
                 descrip.setText(rs.getString("crs_description"));
                 major.setSelectedItem(rs.getString("crs_type"));
-                nbofc.setSelectedItem(rs.getString("crs_numberofcredit"));
+                nbofc.setSelectedItem(rs.getString("crs_nb_credits"));
                 if(rs.getString("crs_lab").equals("Yes")){
                     chlab.setSelected(true);
                 }else{
@@ -238,7 +238,7 @@ public class cousesd extends javax.swing.JDialog {
             String Name = name.getText();
             String Description = descrip.getText();
             String Type= major.getSelectedItem().toString();
-            int numberOfCredit= Integer.parseInt(nbofc.getSelectedItem().toString());
+            int NumberOfCredit= Integer.parseInt(nbofc.getSelectedItem().toString());
             String lab;
             if (!chlab.isSelected()) {
                 lab = "No";
@@ -252,20 +252,20 @@ public class cousesd extends javax.swing.JDialog {
                        pstmt = con.prepareStatement("Insert Into "
                                 + "tbl_courses (crs_code,"
                                 + "crs_name, crs_description, "
-                                + "crs_type, crs_numberofcredit, "
+                                + "crs_type, crs_nb_credits, "
                                 + "crs_lab) "
-                                + "Values ( '" + Code + "', "
-                                + "'" + Name + "', '" + description+ "', '"
-                                + type + "', " + numberOfCredit + ", '"
-                                + lab + "')");
+                                + "Values ( '" + code + "', "
+                                + "'" + name + "', '" + description+ "', '"
+                                + type + "', " + nbofcredits + ", '"
+                                + chlab + "')");
                 }else{
                     pstmt = con.prepareStatement("Update tbl_courses "
-                            + "Set crs_code = '" + Code + "', "
-                            + "crs_name = '" + Name + "', "
+                            + "Set crs_code = '" + code + "', "
+                            + "crs_name = '" + name + "', "
                             + "crs_description = '" + description + "', "
                             + "crs_type = '" + type + "', "
-                            + "crs_numberofcredit= " + numberOfCredit + ", "
-                            + "crs_lab = '" + lab + "'" 
+                            + "crs_nb_credits= " + nbofcredits + ", "
+                            + "crs_lab = '" + chlab + "'" 
                             + "Where crs_id = " + crs_id);
                 }
                 pstmt.execute();
