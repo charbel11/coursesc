@@ -105,6 +105,7 @@ public class cousesd extends javax.swing.JDialog {
 
         description.setText("Description:");
 
+        descrip.setColumns(20);
         descrip.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 descripActionPerformed(evt);
